@@ -2,6 +2,14 @@ import { useState, useEffect, useMemo } from 'react';
 import api from '../services/api';
 import { getSeatFare, getPricingConfig, savePricingConfig } from '../utils/seatPricing';
 
+const toLocalDatetimeInput = (date) => {
+  if (!date) return '';
+  const d = new Date(date);
+  if (isNaN(d.getTime())) return '';
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+};
+
 export default function AdminDashboard() {
   const [tab, setTab] = useState('routes');
   const [buses, setBuses] = useState([]);
@@ -628,7 +636,7 @@ export default function AdminDashboard() {
                             type="button"
                             className="btn-action-edit"
                             onClick={() => {
-                              const d = r.departureTime ? new Date(r.departureTime).toISOString().slice(0, 16) : '';
+                              const d = toLocalDatetimeInput(r.departureTime);
                               const routeBusId = r.bus?._id || '';
                               // Ensure the stored bus still exists in the fleet; fall back to first available
                               const validBusId = buses.some((b) => b._id === routeBusId)

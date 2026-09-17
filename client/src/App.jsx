@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, Navigate, Link } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -11,9 +11,33 @@ import './styles.css';
 
 function ProtectedRoute({ children, adminOnly }) {
   const { user, loading } = useAuth();
-  if (loading) return <div className="center-msg">Loading...</div>;
-  if (!user) return <Login />;
-  if (adminOnly && user.role !== 'admin') return <div className="center-msg">Access denied</div>;
+  const location = useLocation();
+
+  if (loading) return <div className="center-msg">Loading CityLink...</div>;
+  if (!user) {
+    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+  }
+  if (adminOnly && user.role !== 'admin') {
+    return (
+      <div className="section" style={{ maxWidth: '520px', margin: '60px auto', textAlign: 'center' }}>
+        <div className="glass-card" style={{ padding: '36px 28px' }}>
+          <div style={{ fontSize: '2.5rem', marginBottom: '12px' }}>🔒</div>
+          <h2 style={{ marginBottom: '8px' }}>Admin Access Required</h2>
+          <p style={{ color: 'var(--text-muted)', marginBottom: '24px', fontSize: '0.95rem' }}>
+            You are logged in as <strong>{user.email}</strong> (Standard Passenger). Administrator privileges are required to access the CityLink Management Dashboard.
+          </p>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+            <Link to="/login" className="btn-primary" style={{ padding: '10px 20px' }}>
+              Sign in as Admin
+            </Link>
+            <Link to="/" className="btn-secondary" style={{ padding: '10px 20px' }}>
+              Back to Home
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return children;
 }
 
