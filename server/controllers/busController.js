@@ -18,13 +18,16 @@ const createBus = async (req, res) => {
     });
     res.status(201).json(bus);
   } catch (err) {
+    if (err.code === 11000) {
+      return res.status(400).json({ message: 'A bus with this registration number already exists.' });
+    }
     res.status(500).json({ message: err.message });
   }
 };
 
 const getBuses = async (req, res) => {
   try {
-    const buses = await Bus.find().sort({ createdAt: -1 });
+    const buses = await Bus.find().sort({ createdAt: -1 }).lean();
     res.json(buses);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -42,11 +45,14 @@ const updateBus = async (req, res) => {
     if (busNumber) bus.busNumber = busNumber.trim().toUpperCase();
     if (type) bus.type = type.trim();
     if (totalSeats) bus.totalSeats = Number(totalSeats);
-    if (rating !== undefined) bus.rating = Number(rating);
+    if (rating !== undefined && rating !== null && rating !== '') bus.rating = Number(rating);
 
     await bus.save();
     res.json(bus);
   } catch (err) {
+    if (err.code === 11000) {
+      return res.status(400).json({ message: 'A bus with this registration number already exists.' });
+    }
     res.status(500).json({ message: err.message });
   }
 };
@@ -78,7 +84,7 @@ const createRoute = async (req, res) => {
       duration: duration.trim(),
       fare: Number(fare),
     });
-    const populated = await Route.findById(route._id).populate('bus');
+    const populated = await Route.findById(route._id).populate('bus').lean();
     res.status(201).json(populated);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -87,7 +93,7 @@ const createRoute = async (req, res) => {
 
 const getAllRoutes = async (req, res) => {
   try {
-    const routes = await Route.find().populate('bus').sort({ departureTime: 1 });
+    const routes = await Route.find().populate('bus').sort({ departureTime: 1 }).lean();
     res.json(routes);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -107,10 +113,10 @@ const updateRoute = async (req, res) => {
     if (destination) route.destination = destination.trim();
     if (departureTime) route.departureTime = departureTime;
     if (duration) route.duration = duration.trim();
-    if (fare !== undefined && fare !== null) route.fare = Number(fare);
+    if (fare !== undefined && fare !== null && fare !== '') route.fare = Number(fare);
 
     await route.save();
-    const updated = await Route.findById(route._id).populate('bus');
+    const updated = await Route.findById(route._id).populate('bus').lean();
     res.json(updated);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -155,7 +161,7 @@ const searchRoutes = async (req, res) => {
         query.departureTime = { $gte: minStart, $lte: maxEnd };
       }
     }
-    const routes = await Route.find(query).populate('bus').sort({ departureTime: 1 });
+    const routes = await Route.find(query).populate('bus').sort({ departureTime: 1 }).lean();
     res.json(routes);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -164,7 +170,7 @@ const searchRoutes = async (req, res) => {
 
 const getPopularRoutes = async (req, res) => {
   try {
-    const routes = await Route.find().populate('bus').limit(6).sort({ createdAt: -1 });
+    const routes = await Route.find().populate('bus').limit(6).sort({ createdAt: -1 }).lean();
     res.json(routes);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -183,3 +189,4 @@ module.exports = {
   searchRoutes,
   getPopularRoutes,
 };
+

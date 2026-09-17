@@ -164,7 +164,8 @@ const getMyBookings = async (req, res) => {
   try {
     const bookings = await Booking.find({ user: req.user._id })
       .populate({ path: 'route', populate: { path: 'bus' } })
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .lean();
     res.json(bookings);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -176,7 +177,8 @@ const getAllBookings = async (req, res) => {
     const bookings = await Booking.find()
       .populate('user', 'name email')
       .populate({ path: 'route', populate: { path: 'bus' } })
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .lean();
     res.json(bookings);
   } catch (err) {
     res.status(500).json({ message: err.message });

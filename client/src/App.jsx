@@ -21,7 +21,12 @@ function ProtectedRoute({ children, adminOnly }) {
     return (
       <div className="section" style={{ maxWidth: '520px', margin: '60px auto', textAlign: 'center' }}>
         <div className="glass-card" style={{ padding: '36px 28px' }}>
-          <div style={{ fontSize: '2.5rem', marginBottom: '12px' }}>🔒</div>
+          <div style={{ width: '48px', height: '48px', margin: '0 auto 16px auto', borderRadius: '12px', background: 'rgba(239, 68, 68, 0.1)', color: '#EF4444', display: 'flex', alignContent: 'center', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+          </div>
           <h2 style={{ marginBottom: '8px' }}>Admin Access Required</h2>
           <p style={{ color: 'var(--text-muted)', marginBottom: '24px', fontSize: '0.95rem' }}>
             You are logged in as <strong>{user.email}</strong> (Standard Passenger). Administrator privileges are required to access the CityLink Management Dashboard.

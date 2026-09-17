@@ -36,7 +36,7 @@ export default function Navbar() {
       <div className="desktop-only">
         {user ? (
           <div className="nav-user">
-            <span className="user-greeting">👋 {user.name}</span>
+            <span className="user-greeting">{user.name}</span>
             <button onClick={handleLogout} className="btn-nav-logout">Logout</button>
           </div>
         ) : (
@@ -84,16 +84,16 @@ export default function Navbar() {
 
         <div className="mobile-nav-links">
           <Link to="/" onClick={() => setMobileMenuOpen(false)}>
-            🚍 Bus Tickets
+            Bus Tickets
           </Link>
           {user && (
             <Link to="/my-bookings" onClick={() => setMobileMenuOpen(false)}>
-              🎫 My Bookings
+              My Bookings
             </Link>
           )}
           {user?.role === 'admin' && (
             <Link to="/admin" onClick={() => setMobileMenuOpen(false)}>
-              ⚙️ Admin Dashboard
+              Admin Dashboard
             </Link>
           )}
         </div>

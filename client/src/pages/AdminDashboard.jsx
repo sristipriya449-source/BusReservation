@@ -10,6 +10,89 @@ const toLocalDatetimeInput = (date) => {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 };
 
+/* ── Clean SVG Vector Icons (No Emojis) ────────────────────────── */
+const Icons = {
+  Route: () => (
+    <svg className="admin-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="6" cy="19" r="3" />
+      <path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15" />
+      <circle cx="18" cy="5" r="3" />
+    </svg>
+  ),
+  Bus: () => (
+    <svg className="admin-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="18" height="15" rx="3" />
+      <path d="M3 9h18" />
+      <path d="M8 14h.01" />
+      <path d="M16 14h.01" />
+      <path d="M6 18v3" />
+      <path d="M18 18v3" />
+    </svg>
+  ),
+  Ticket: () => (
+    <svg className="admin-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
+      <path d="M13 5v2" />
+      <path d="M13 11v2" />
+      <path d="M13 17v2" />
+    </svg>
+  ),
+  Revenue: () => (
+    <svg className="admin-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="12" y1="1" x2="12" y2="23" />
+      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+    </svg>
+  ),
+  Search: () => (
+    <svg className="admin-svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
+  ),
+  Edit: () => (
+    <svg className="admin-svg-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 20h9" />
+      <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+    </svg>
+  ),
+  Trash: () => (
+    <svg className="admin-svg-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="3 6 5 6 21 6" />
+      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+    </svg>
+  ),
+  Check: () => (
+    <svg className="admin-svg-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  ),
+  Close: () => (
+    <svg className="admin-svg-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  ),
+  Plus: () => (
+    <svg className="admin-svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19" />
+      <line x1="5" y1="12" x2="19" y2="12" />
+    </svg>
+  ),
+  Sliders: () => (
+    <svg className="admin-svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="4" y1="21" x2="4" y2="14" />
+      <line x1="4" y1="10" x2="4" y2="3" />
+      <line x1="12" y1="21" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12" y2="3" />
+      <line x1="20" y1="21" x2="20" y2="16" />
+      <line x1="20" y1="12" x2="20" y2="3" />
+      <line x1="1" y1="14" x2="7" y2="14" />
+      <line x1="9" y1="8" x2="15" y2="8" />
+      <line x1="17" y1="16" x2="23" y2="16" />
+    </svg>
+  ),
+};
+
 export default function AdminDashboard() {
   const [tab, setTab] = useState('routes');
   const [buses, setBuses] = useState([]);
@@ -17,14 +100,30 @@ export default function AdminDashboard() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Floating Toast Notification state
+  const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+
+  const showToast = (message, type = 'success') => {
+    setToast({ show: true, message, type });
+    setTimeout(() => {
+      setToast((prev) => ({ ...prev, show: false }));
+    }, 3500);
+  };
+
   // Frontend Dynamic Pricing Engine State
   const [pricingConfig, setPricingConfigState] = useState(getPricingConfig());
-  const [configToast, setConfigToast] = useState('');
 
   // Search & Filter state
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Inline Price Editing state: { [routeId]: priceValue }
+  // Pagination state
+  const [routePage, setRoutePage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
+
+  const [bookingPage, setBookingPage] = useState(1);
+  const [bookingSearch, setBookingSearch] = useState('');
+
+  // Inline Price Editing state
   const [editingPriceId, setEditingPriceId] = useState(null);
   const [tempPrice, setTempPrice] = useState('');
   const [savingPrice, setSavingPrice] = useState(false);
@@ -71,7 +170,7 @@ export default function AdminDashboard() {
         setBookings(bookingsData);
       })
       .catch((err) => {
-        console.error('Failed to load admin data', err);
+        showToast(err.response?.data?.message || 'Failed to load admin data', 'error');
       })
       .finally(() => {
         setLoading(false);
@@ -80,14 +179,14 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     loadAll();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ── Save Frontend Dynamic Pricing Rule ────────────────────
+  // ── Apply Dynamic Pricing Rule ────────────────────────────
   const handleApplyPricingConfig = (newConfig) => {
     const updated = savePricingConfig(newConfig);
     setPricingConfigState(updated);
-    setConfigToast('✓ Dynamic pricing rule updated and applied live across the platform!');
-    setTimeout(() => setConfigToast(''), 3500);
+    showToast('Dynamic pricing configuration applied live across the platform.');
   };
 
   // ── KPI Summary Calculations ──────────────────────────────
@@ -106,7 +205,7 @@ export default function AdminDashboard() {
     };
   }, [routes, buses, bookings]);
 
-  // ── Filtered Routes ───────────────────────────────────────
+  // ── Filtered & Paginated Routes ───────────────────────────
   const filteredRoutes = useMemo(() => {
     if (!searchQuery.trim()) return routes;
     const q = searchQuery.toLowerCase().trim();
@@ -119,6 +218,45 @@ export default function AdminDashboard() {
         String(r.fare).includes(q)
     );
   }, [routes, searchQuery]);
+
+  const totalRoutePages = Math.max(1, Math.ceil(filteredRoutes.length / pageSize));
+
+  const paginatedRoutes = useMemo(() => {
+    const start = (routePage - 1) * pageSize;
+    return filteredRoutes.slice(start, start + pageSize);
+  }, [filteredRoutes, routePage, pageSize]);
+
+  // Reset to page 1 on search change
+  useEffect(() => {
+    setRoutePage(1);
+  }, [searchQuery, pageSize]);
+
+  // ── Filtered & Paginated Bookings ─────────────────────────
+  const filteredBookings = useMemo(() => {
+    if (!bookingSearch.trim()) return bookings;
+    const q = bookingSearch.toLowerCase().trim();
+    return bookings.filter(
+      (b) =>
+        b._id?.toLowerCase().includes(q) ||
+        b.passengerName?.toLowerCase().includes(q) ||
+        b.user?.name?.toLowerCase().includes(q) ||
+        b.user?.email?.toLowerCase().includes(q) ||
+        b.route?.source?.toLowerCase().includes(q) ||
+        b.route?.destination?.toLowerCase().includes(q) ||
+        b.status?.toLowerCase().includes(q)
+    );
+  }, [bookings, bookingSearch]);
+
+  const totalBookingPages = Math.max(1, Math.ceil(filteredBookings.length / pageSize));
+
+  const paginatedBookings = useMemo(() => {
+    const start = (bookingPage - 1) * pageSize;
+    return filteredBookings.slice(start, start + pageSize);
+  }, [filteredBookings, bookingPage, pageSize]);
+
+  useEffect(() => {
+    setBookingPage(1);
+  }, [bookingSearch, pageSize]);
 
   // ── Quick Inline Price Update ─────────────────────────────
   const startInlinePriceEdit = (route) => {
@@ -134,7 +272,7 @@ export default function AdminDashboard() {
   const saveInlinePrice = async (routeId) => {
     const newFare = Number(tempPrice);
     if (!newFare || newFare <= 0) {
-      alert('Please enter a valid positive fare amount.');
+      showToast('Please enter a valid positive fare amount.', 'error');
       return;
     }
     setSavingPrice(true);
@@ -145,8 +283,9 @@ export default function AdminDashboard() {
       );
       setEditingPriceId(null);
       setTempPrice('');
+      showToast('Route fare updated successfully.');
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to update price');
+      showToast(err.response?.data?.message || 'Failed to update fare', 'error');
     } finally {
       setSavingPrice(false);
     }
@@ -156,7 +295,7 @@ export default function AdminDashboard() {
   const handleAddRoute = async (e) => {
     e.preventDefault();
     if (!routeForm.bus || !routeForm.source || !routeForm.destination || !routeForm.departureTime) {
-      alert('Please fill all required route fields.');
+      showToast('Please complete all required route fields.', 'error');
       return;
     }
     setCreatingRoute(true);
@@ -174,9 +313,9 @@ export default function AdminDashboard() {
         duration: '4h 30m',
         fare: 500,
       });
-      alert('✓ Route created successfully with dynamic window & aisle pricing enabled!');
+      showToast('New scheduled route created successfully.');
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to add route');
+      showToast(err.response?.data?.message || 'Failed to add route', 'error');
     } finally {
       setCreatingRoute(false);
     }
@@ -198,9 +337,9 @@ export default function AdminDashboard() {
       });
       setRoutes((prev) => prev.map((r) => (r._id === editRouteModal._id ? res.data : r)));
       setEditRouteModal(null);
-      alert('✓ Route details & pricing updated successfully!');
+      showToast('Route details and schedule updated.');
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to update route');
+      showToast(err.response?.data?.message || 'Failed to update route', 'error');
     } finally {
       setSavingRoute(false);
     }
@@ -208,12 +347,13 @@ export default function AdminDashboard() {
 
   // ── Delete Route ──────────────────────────────────────────
   const handleDeleteRoute = async (routeId) => {
-    if (!window.confirm('Are you sure you want to delete this scheduled route?')) return;
+    if (!window.confirm('Delete this scheduled route? This action cannot be undone.')) return;
     try {
       await api.delete(`/buses/routes/${routeId}`);
       setRoutes((prev) => prev.filter((r) => r._id !== routeId));
+      showToast('Route schedule removed successfully.');
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to delete route');
+      showToast(err.response?.data?.message || 'Failed to delete route', 'error');
     }
   };
 
@@ -229,9 +369,9 @@ export default function AdminDashboard() {
       });
       setBuses((prev) => [res.data, ...prev]);
       setBusForm({ busName: '', busNumber: '', type: 'Volvo Multi-axle', totalSeats: 40, rating: 4.8 });
-      alert('✓ New bus fleet added successfully!');
+      showToast('New bus registered in fleet.');
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to add bus');
+      showToast(err.response?.data?.message || 'Failed to add bus', 'error');
     } finally {
       setCreatingBus(false);
     }
@@ -251,10 +391,19 @@ export default function AdminDashboard() {
         rating: Number(editBusModal.rating),
       });
       setBuses((prev) => prev.map((b) => (b._id === editBusModal._id ? res.data : b)));
+      // Also update matching buses in routes list
+      setRoutes((prev) =>
+        prev.map((r) => {
+          if (r.bus?._id === editBusModal._id || r.bus === editBusModal._id) {
+            return { ...r, bus: res.data };
+          }
+          return r;
+        })
+      );
       setEditBusModal(null);
-      alert('✓ Bus details updated successfully!');
+      showToast('Bus fleet details updated.');
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to update bus');
+      showToast(err.response?.data?.message || 'Failed to update bus', 'error');
     } finally {
       setSavingBus(false);
     }
@@ -262,21 +411,40 @@ export default function AdminDashboard() {
 
   // ── Bus Delete ────────────────────────────────────────────
   const handleDeleteBus = async (busId) => {
-    if (!window.confirm('Are you sure you want to delete this bus?')) return;
+    if (!window.confirm('Delete this bus from fleet? Scheduled routes for this bus may be affected.')) return;
     try {
       await api.delete(`/buses/${busId}`);
       setBuses((prev) => prev.filter((b) => b._id !== busId));
+      showToast('Bus removed from fleet.');
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to delete bus');
+      showToast(err.response?.data?.message || 'Failed to delete bus', 'error');
     }
   };
 
-  // Live fare preview for the create route form
+  // Live fare preview calculation for create route form
   const previewAisleFare = Number(routeForm.fare) || 0;
   const previewWindowFare = getSeatFare(previewAisleFare, 1, pricingConfig);
 
   return (
     <section className="section admin-section">
+      {/* Floating Modern Toast Notification */}
+      {toast.show && (
+        <div className={`admin-floating-toast toast-${toast.type}`}>
+          <div className="toast-icon">
+            {toast.type === 'error' ? <Icons.Close /> : <Icons.Check />}
+          </div>
+          <div className="toast-text">{toast.message}</div>
+          <button
+            type="button"
+            className="toast-close"
+            onClick={() => setToast((prev) => ({ ...prev, show: false }))}
+          >
+            <Icons.Close />
+          </button>
+        </div>
+      )}
+
+      {/* Control Center Header */}
       <div className="section-head">
         <div>
           <div className="section-eyebrow">Control Center</div>
@@ -284,78 +452,99 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Top Level Metric KPIs */}
+      {/* Top Level Metric KPIs with Vector Icons */}
       <div className="admin-stats-grid">
         <div className="glass-card admin-stat-card">
-          <div className="stat-icon">🗺️</div>
-          <div className="stat-value">{stats.totalRoutes}</div>
-          <div className="stat-label">Scheduled Trips</div>
+          <div className="stat-icon-wrap">
+            <Icons.Route />
+          </div>
+          <div className="stat-content">
+            <div className="stat-value">{stats.totalRoutes}</div>
+            <div className="stat-label">Scheduled Trips</div>
+          </div>
         </div>
         <div className="glass-card admin-stat-card">
-          <div className="stat-icon">🚍</div>
-          <div className="stat-value">{stats.totalBuses}</div>
-          <div className="stat-label">Fleet Buses</div>
+          <div className="stat-icon-wrap">
+            <Icons.Bus />
+          </div>
+          <div className="stat-content">
+            <div className="stat-value">{stats.totalBuses}</div>
+            <div className="stat-label">Fleet Buses</div>
+          </div>
         </div>
         <div className="glass-card admin-stat-card">
-          <div className="stat-icon">🎟️</div>
-          <div className="stat-value">{stats.confirmedCount}</div>
-          <div className="stat-label">Confirmed Bookings</div>
+          <div className="stat-icon-wrap">
+            <Icons.Ticket />
+          </div>
+          <div className="stat-content">
+            <div className="stat-value">{stats.confirmedCount}</div>
+            <div className="stat-label">Confirmed Bookings</div>
+          </div>
         </div>
         <div className="glass-card admin-stat-card">
-          <div className="stat-icon">💰</div>
-          <div className="stat-value">₹{stats.totalRevenue.toLocaleString('en-IN')}</div>
-          <div className="stat-label">Gross Revenue (GST Incl.)</div>
+          <div className="stat-icon-wrap">
+            <Icons.Revenue />
+          </div>
+          <div className="stat-content">
+            <div className="stat-value">₹{stats.totalRevenue.toLocaleString('en-IN')}</div>
+            <div className="stat-label">Gross Revenue (GST Incl.)</div>
+          </div>
         </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="tabs" style={{ marginTop: '28px', marginBottom: '20px' }}>
+      <div className="admin-tabs-bar">
         <button
           type="button"
-          className={`tab-btn ${tab === 'routes' ? 'active' : ''}`}
+          className={`admin-tab-btn ${tab === 'routes' ? 'active' : ''}`}
           onClick={() => setTab('routes')}
         >
-          🗺️ Routes &amp; Pricing ({routes.length})
+          <Icons.Route />
+          <span>Routes &amp; Pricing ({routes.length})</span>
         </button>
         <button
           type="button"
-          className={`tab-btn ${tab === 'buses' ? 'active' : ''}`}
+          className={`admin-tab-btn ${tab === 'buses' ? 'active' : ''}`}
           onClick={() => setTab('buses')}
         >
-          🚍 Fleet Buses ({buses.length})
+          <Icons.Bus />
+          <span>Fleet Buses ({buses.length})</span>
         </button>
         <button
           type="button"
-          className={`tab-btn ${tab === 'bookings' ? 'active' : ''}`}
+          className={`admin-tab-btn ${tab === 'bookings' ? 'active' : ''}`}
           onClick={() => setTab('bookings')}
         >
-          🎟️ Passenger Bookings ({bookings.length})
+          <Icons.Ticket />
+          <span>Bookings ({bookings.length})</span>
         </button>
       </div>
 
-      {loading && <div className="center-msg">Loading CityLink management system...</div>}
+      {loading && (
+        <div className="glass-card center-msg" style={{ padding: '40px' }}>
+          <div className="spinner-center" />
+          <div style={{ marginTop: '12px', color: 'var(--text-muted)' }}>Loading CityLink control center...</div>
+        </div>
+      )}
 
       {/* ══════════════════════════════════════════════════════
-          TAB 1: ROUTES & DYNAMIC PRICING MANAGEMENT
+          TAB 1: ROUTES & PRICING MANAGEMENT
          ══════════════════════════════════════════════════════ */}
       {!loading && tab === 'routes' && (
         <>
-          {/* Frontend Dynamic Pricing Configuration Engine */}
-          <div className="glass-card seat-panel dynamic-pricing-engine-card" style={{ marginBottom: '24px' }}>
+          {/* Dynamic Pricing Engine Card */}
+          <div className="glass-card dynamic-pricing-engine-card">
             <div className="engine-header">
-              <div className="seat-panel-title" style={{ fontSize: '1.15rem' }}>
-                ⚡ Frontend Dynamic Pricing Engine
+              <div className="engine-title-wrap">
+                <Icons.Sliders />
+                <div className="seat-panel-title" style={{ fontSize: '1.15rem' }}>
+                  Dynamic Pricing Engine
+                </div>
               </div>
               <div className="seat-panel-sub">
-                Configure live Window Seat surcharge rules applied across the whole frontend without needing backend code changes.
+                Configure live Window Seat premium rules calculated dynamically on the platform.
               </div>
             </div>
-
-            {configToast && (
-              <div className="pricing-toast-banner">
-                {configToast}
-              </div>
-            )}
 
             <div className="pricing-controls-grid">
               <div className="pricing-control-group">
@@ -373,7 +562,7 @@ export default function AdminDashboard() {
                     className={`mode-btn ${pricingConfig.pricingMode === 'flat' ? 'active' : ''}`}
                     onClick={() => handleApplyPricingConfig({ ...pricingConfig, pricingMode: 'flat' })}
                   >
-                    Flat INR (₹)
+                    Flat Rate (₹)
                   </button>
                 </div>
               </div>
@@ -427,10 +616,10 @@ export default function AdminDashboard() {
           </div>
 
           {/* Add Route Form */}
-          <form className="glass-card seat-panel form-grid" onSubmit={handleAddRoute} style={{ marginBottom: '26px' }}>
+          <form className="glass-card form-grid" onSubmit={handleAddRoute} style={{ marginBottom: '24px' }}>
             <div className="form-header-row" style={{ gridColumn: '1 / -1', marginBottom: '8px' }}>
-              <div className="seat-panel-title" style={{ fontSize: '1.15rem' }}>Add New Route &amp; Set Base Fare</div>
-              <div className="seat-panel-sub">Assign bus schedules and define base prices directly from the frontend</div>
+              <div className="seat-panel-title" style={{ fontSize: '1.15rem' }}>Add Scheduled Route</div>
+              <div className="seat-panel-sub">Assign fleet buses, set origins, destinations, and base fares</div>
             </div>
 
             <div className="auth-field">
@@ -452,7 +641,7 @@ export default function AdminDashboard() {
             <div className="auth-field">
               <label>Origin (Source City)</label>
               <input
-                placeholder="e.g. Kolkata"
+                placeholder="e.g. Mumbai"
                 value={routeForm.source}
                 onChange={(e) => setRouteForm({ ...routeForm, source: e.target.value })}
                 required
@@ -462,7 +651,7 @@ export default function AdminDashboard() {
             <div className="auth-field">
               <label>Destination City</label>
               <input
-                placeholder="e.g. Digha"
+                placeholder="e.g. Pune"
                 value={routeForm.destination}
                 onChange={(e) => setRouteForm({ ...routeForm, destination: e.target.value })}
                 required
@@ -482,7 +671,7 @@ export default function AdminDashboard() {
             <div className="auth-field">
               <label>Estimated Duration</label>
               <input
-                placeholder="e.g. 4h 15m"
+                placeholder="e.g. 3h 30m"
                 value={routeForm.duration}
                 onChange={(e) => setRouteForm({ ...routeForm, duration: e.target.value })}
                 required
@@ -490,24 +679,24 @@ export default function AdminDashboard() {
             </div>
 
             <div className="auth-field">
-              <label>Base Price / Aisle Fare (₹)</label>
+              <label>Base Fare / Aisle Price (₹)</label>
               <input
                 type="number"
-                min="100"
+                min="50"
                 step="10"
-                placeholder="e.g. 450"
+                placeholder="e.g. 550"
                 value={routeForm.fare}
                 onChange={(e) => setRouteForm({ ...routeForm, fare: e.target.value })}
                 required
               />
             </div>
 
-            {/* Live Pricing Preview Box */}
+            {/* Live Pricing Output Preview */}
             <div className="admin-price-preview-banner" style={{ gridColumn: '1 / -1' }}>
-              <div className="preview-label">⚡ Live Pricing Output for this Route:</div>
+              <div className="preview-label">Applied Seat Pricing for this Route:</div>
               <div className="preview-items">
-                <span className="admin-badge-aisle">🚶 Aisle / Standard Seat: <strong>₹{previewAisleFare}</strong></span>
-                <span className="admin-badge-window">🪟 Window Seat (Premium): <strong>₹{previewWindowFare}</strong></span>
+                <span className="admin-badge-aisle">Aisle Standard: <strong>₹{previewAisleFare}</strong></span>
+                <span className="admin-badge-window">Window Premium: <strong>₹{previewWindowFare}</strong></span>
               </div>
             </div>
 
@@ -516,24 +705,39 @@ export default function AdminDashboard() {
             </button>
           </form>
 
-          {/* Search & Filter bar for routes */}
+          {/* Search & Pagination Control Header */}
           <div className="admin-controls-bar">
             <div className="admin-search-wrap">
+              <span className="search-icon-adornment">
+                <Icons.Search />
+              </span>
               <input
                 type="text"
                 className="admin-search-input"
-                placeholder="🔍 Search routes by origin, destination, bus name, or fare..."
+                placeholder="Search routes by origin, destination, bus name, or fare..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
               {searchQuery && (
                 <button type="button" className="admin-clear-btn" onClick={() => setSearchQuery('')}>
-                  ✕
+                  <Icons.Close />
                 </button>
               )}
             </div>
-            <div className="admin-count-tag">
-              Showing <strong>{filteredRoutes.length}</strong> of {routes.length} trips
+
+            <div className="admin-pagination-selector">
+              <span className="admin-count-tag">
+                Showing <strong>{filteredRoutes.length > 0 ? (routePage - 1) * pageSize + 1 : 0} - {Math.min(routePage * pageSize, filteredRoutes.length)}</strong> of <strong>{filteredRoutes.length}</strong> trips
+              </span>
+              <select
+                className="admin-page-size-select"
+                value={pageSize}
+                onChange={(e) => setPageSize(Number(e.target.value))}
+              >
+                <option value={25}>25 per page</option>
+                <option value={50}>50 per page</option>
+                <option value={100}>100 per page</option>
+              </select>
             </div>
           </div>
 
@@ -542,136 +746,174 @@ export default function AdminDashboard() {
             <table className="admin-table">
               <thead>
                 <tr>
-                  <th>Route (Origin → Destination)</th>
+                  <th>Route</th>
                   <th>Assigned Bus</th>
                   <th>Departure Date &amp; Time</th>
                   <th>Duration</th>
-                  <th style={{ minWidth: '220px' }}>Dynamic Fare (Aisle / Window)</th>
-                  <th style={{ textAlign: 'right', minWidth: '150px' }}>Actions</th>
+                  <th style={{ minWidth: '220px' }}>Dynamic Fare</th>
+                  <th style={{ textAlign: 'right', minWidth: '140px' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredRoutes.map((r) => {
-                  const aisleFare = getSeatFare(r.fare, 2, pricingConfig);
-                  const windowFare = getSeatFare(r.fare, 1, pricingConfig);
-                  const isEditingPrice = editingPriceId === r._id;
-                  const dateStr = r.departureTime
-                    ? new Date(r.departureTime).toLocaleString('en-IN', {
-                        day: '2-digit',
-                        month: 'short',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        hour12: true,
-                      })
-                    : 'N/A';
+                {paginatedRoutes.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} style={{ textAlign: 'center', padding: '32px', color: 'var(--text-muted)' }}>
+                      No routes found matching "{searchQuery}".
+                    </td>
+                  </tr>
+                ) : (
+                  paginatedRoutes.map((r) => {
+                    const aisleFare = getSeatFare(r.fare, 2, pricingConfig);
+                    const windowFare = getSeatFare(r.fare, 1, pricingConfig);
+                    const isEditingPrice = editingPriceId === r._id;
+                    const dateStr = r.departureTime
+                      ? new Date(r.departureTime).toLocaleString('en-IN', {
+                          day: '2-digit',
+                          month: 'short',
+                          year: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          hour12: true,
+                        })
+                      : 'N/A';
 
-                  return (
-                    <tr key={r._id}>
-                      <td>
-                        <strong>{r.source}</strong> → <strong>{r.destination}</strong>
-                      </td>
-                      <td>
-                        <div>{r.bus?.busName || 'CityLink Liner'}</div>
-                        <span className="table-sub-text">{r.bus?.busNumber} · {r.bus?.type}</span>
-                      </td>
-                      <td>{dateStr}</td>
-                      <td>{r.duration}</td>
-                      <td>
-                        {isEditingPrice ? (
-                          <div className="inline-price-edit-box">
-                            <input
-                              type="number"
-                              min="50"
-                              step="10"
-                              className="inline-price-input"
-                              value={tempPrice}
-                              onChange={(e) => setTempPrice(e.target.value)}
-                              onKeyDown={(e) => {
-                                if (e.key === 'Enter') saveInlinePrice(r._id);
-                                if (e.key === 'Escape') cancelInlinePriceEdit();
+                    return (
+                      <tr key={r._id}>
+                        <td>
+                          <strong>{r.source}</strong> → <strong>{r.destination}</strong>
+                        </td>
+                        <td>
+                          <div>{r.bus?.busName || 'CityLink Liner'}</div>
+                          <span className="table-sub-text">{r.bus?.busNumber} · {r.bus?.type}</span>
+                        </td>
+                        <td>{dateStr}</td>
+                        <td>{r.duration}</td>
+                        <td>
+                          {isEditingPrice ? (
+                            <div className="inline-price-edit-box">
+                              <input
+                                type="number"
+                                min="50"
+                                step="10"
+                                className="inline-price-input"
+                                value={tempPrice}
+                                onChange={(e) => setTempPrice(e.target.value)}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') saveInlinePrice(r._id);
+                                  if (e.key === 'Escape') cancelInlinePriceEdit();
+                                }}
+                                autoFocus
+                              />
+                              <button
+                                type="button"
+                                className="btn-save-sm"
+                                onClick={() => saveInlinePrice(r._id)}
+                                disabled={savingPrice}
+                                title="Save new fare"
+                              >
+                                <Icons.Check />
+                              </button>
+                              <button
+                                type="button"
+                                className="btn-cancel-sm"
+                                onClick={cancelInlinePriceEdit}
+                                title="Cancel"
+                              >
+                                <Icons.Close />
+                              </button>
+                            </div>
+                          ) : (
+                            <div className="admin-fare-badge-group">
+                              <span className="admin-badge-aisle">
+                                Aisle: ₹{aisleFare}
+                              </span>
+                              <span className="admin-badge-window">
+                                Window: ₹{windowFare}
+                              </span>
+                              <button
+                                type="button"
+                                className="btn-quick-edit-price"
+                                onClick={() => startInlinePriceEdit(r)}
+                                title="Quick edit base price"
+                              >
+                                <Icons.Edit />
+                                <span>Edit</span>
+                              </button>
+                            </div>
+                          )}
+                        </td>
+                        <td style={{ textAlign: 'right' }}>
+                          <div className="admin-table-actions">
+                            <button
+                              type="button"
+                              className="btn-action-edit"
+                              onClick={() => {
+                                const d = toLocalDatetimeInput(r.departureTime);
+                                const routeBusId = r.bus?._id || r.bus || '';
+                                const validBusId = buses.some((b) => b._id === routeBusId)
+                                  ? routeBusId
+                                  : (buses[0]?._id || '');
+                                setEditRouteModal({
+                                  _id: r._id,
+                                  bus: validBusId,
+                                  source: r.source,
+                                  destination: r.destination,
+                                  departureTime: d,
+                                  duration: r.duration,
+                                  fare: r.fare,
+                                });
                               }}
-                              autoFocus
-                            />
-                            <button
-                              type="button"
-                              className="btn-save-sm"
-                              onClick={() => saveInlinePrice(r._id)}
-                              disabled={savingPrice}
-                              title="Save new fare"
+                              title="Edit full route details"
                             >
-                              ✓
+                              <Icons.Edit />
+                              <span>Edit</span>
                             </button>
                             <button
                               type="button"
-                              className="btn-cancel-sm"
-                              onClick={cancelInlinePriceEdit}
-                              title="Cancel"
+                              className="btn-action-delete"
+                              onClick={() => handleDeleteRoute(r._id)}
+                              title="Delete route"
                             >
-                              ✕
+                              <Icons.Trash />
                             </button>
                           </div>
-                        ) : (
-                          <div className="admin-fare-badge-group">
-                            <span className="admin-badge-aisle" title="Standard Aisle Seat Fare">
-                              Aisle: ₹{aisleFare}
-                            </span>
-                            <span className="admin-badge-window" title="Premium Window Seat Fare">
-                              Window: ₹{windowFare}
-                            </span>
-                            <button
-                              type="button"
-                              className="btn-quick-edit-price"
-                              onClick={() => startInlinePriceEdit(r)}
-                              title="Click to quickly change price dynamically"
-                            >
-                              ✎ Edit
-                            </button>
-                          </div>
-                        )}
-                      </td>
-                      <td style={{ textAlign: 'right' }}>
-                        <div className="admin-table-actions">
-                          <button
-                            type="button"
-                            className="btn-action-edit"
-                            onClick={() => {
-                              const d = toLocalDatetimeInput(r.departureTime);
-                              const routeBusId = r.bus?._id || '';
-                              // Ensure the stored bus still exists in the fleet; fall back to first available
-                              const validBusId = buses.some((b) => b._id === routeBusId)
-                                ? routeBusId
-                                : (buses[0]?._id || '');
-                              setEditRouteModal({
-                                _id: r._id,
-                                bus: validBusId,
-                                source: r.source,
-                                destination: r.destination,
-                                departureTime: d,
-                                duration: r.duration,
-                                fare: r.fare,
-                              });
-                            }}
-                            title="Edit full route details"
-                          >
-                            ✏️ Edit
-                          </button>
-                          <button
-                            type="button"
-                            className="btn-action-delete"
-                            onClick={() => handleDeleteRoute(r._id)}
-                            title="Delete route"
-                          >
-                            🗑️
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
               </tbody>
             </table>
           </div>
+
+          {/* Pagination Navigation Bar */}
+          {totalRoutePages > 1 && (
+            <div className="admin-pagination-nav">
+              <button
+                type="button"
+                className="btn-page-step"
+                disabled={routePage <= 1}
+                onClick={() => setRoutePage((p) => Math.max(1, p - 1))}
+              >
+                ← Previous
+              </button>
+
+              <div className="page-numbers-wrap">
+                <span className="page-indicator-text">
+                  Page <strong>{routePage}</strong> of <strong>{totalRoutePages}</strong>
+                </span>
+              </div>
+
+              <button
+                type="button"
+                className="btn-page-step"
+                disabled={routePage >= totalRoutePages}
+                onClick={() => setRoutePage((p) => Math.min(totalRoutePages, p + 1))}
+              >
+                Next →
+              </button>
+            </div>
+          )}
         </>
       )}
 
@@ -680,16 +922,16 @@ export default function AdminDashboard() {
          ══════════════════════════════════════════════════════ */}
       {!loading && tab === 'buses' && (
         <>
-          <form className="glass-card seat-panel form-grid" onSubmit={handleAddBus} style={{ marginBottom: '26px' }}>
+          <form className="glass-card form-grid" onSubmit={handleAddBus} style={{ marginBottom: '24px' }}>
             <div className="form-header-row" style={{ gridColumn: '1 / -1', marginBottom: '8px' }}>
-              <div className="seat-panel-title" style={{ fontSize: '1.15rem' }}>Add Bus to CityLink Fleet</div>
-              <div className="seat-panel-sub">Register vehicle details, coach type, and seat capacity</div>
+              <div className="seat-panel-title" style={{ fontSize: '1.15rem' }}>Add Bus to Fleet</div>
+              <div className="seat-panel-sub">Register vehicle details, coach class, and passenger capacity</div>
             </div>
 
             <div className="auth-field">
               <label>Bus / Operator Name</label>
               <input
-                placeholder="e.g. CityLink Royal Goldliner"
+                placeholder="e.g. CityLink Royal Club Class"
                 value={busForm.busName}
                 onChange={(e) => setBusForm({ ...busForm, busName: e.target.value })}
                 required
@@ -699,7 +941,7 @@ export default function AdminDashboard() {
             <div className="auth-field">
               <label>Registration Number</label>
               <input
-                placeholder="e.g. CL-DL-01-AX-9999"
+                placeholder="e.g. CL-KA-01-E-1001"
                 value={busForm.busNumber}
                 onChange={(e) => setBusForm({ ...busForm, busNumber: e.target.value })}
                 required
@@ -764,14 +1006,15 @@ export default function AdminDashboard() {
                           className="btn-action-edit"
                           onClick={() => setEditBusModal({ ...b })}
                         >
-                          ✏️ Edit
+                          <Icons.Edit />
+                          <span>Edit</span>
                         </button>
                         <button
                           type="button"
                           className="btn-action-delete"
                           onClick={() => handleDeleteBus(b._id)}
                         >
-                          🗑️
+                          <Icons.Trash />
                         </button>
                       </div>
                     </td>
@@ -787,72 +1030,148 @@ export default function AdminDashboard() {
           TAB 3: ALL PASSENGER BOOKINGS
          ══════════════════════════════════════════════════════ */}
       {!loading && tab === 'bookings' && (
-        <div className="glass-card table-wrap">
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>Booking Ref</th>
-                <th>Passenger Name &amp; Contact</th>
-                <th>Route</th>
-                <th>Seats</th>
-                <th>Total Fare</th>
-                <th>Status</th>
-                <th>Booking Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bookings.map((b) => {
-                const dateStr = b.createdAt
-                  ? new Date(b.createdAt).toLocaleDateString('en-IN', {
-                      day: '2-digit',
-                      month: 'short',
-                      year: 'numeric',
-                    })
-                  : 'N/A';
+        <>
+          <div className="admin-controls-bar">
+            <div className="admin-search-wrap">
+              <span className="search-icon-adornment">
+                <Icons.Search />
+              </span>
+              <input
+                type="text"
+                className="admin-search-input"
+                placeholder="Search bookings by passenger name, email, booking ref, or route..."
+                value={bookingSearch}
+                onChange={(e) => setBookingSearch(e.target.value)}
+              />
+              {bookingSearch && (
+                <button type="button" className="admin-clear-btn" onClick={() => setBookingSearch('')}>
+                  <Icons.Close />
+                </button>
+              )}
+            </div>
 
-                return (
-                  <tr key={b._id}>
-                    <td>
-                      <span className="booking-ref-chip">CL-{b._id.slice(-6).toUpperCase()}</span>
+            <div className="admin-pagination-selector">
+              <span className="admin-count-tag">
+                Showing <strong>{filteredBookings.length > 0 ? (bookingPage - 1) * pageSize + 1 : 0} - {Math.min(bookingPage * pageSize, filteredBookings.length)}</strong> of <strong>{filteredBookings.length}</strong> bookings
+              </span>
+            </div>
+          </div>
+
+          <div className="glass-card table-wrap">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Booking Ref</th>
+                  <th>Passenger &amp; Contact</th>
+                  <th>Route</th>
+                  <th>Seats</th>
+                  <th>Total Fare</th>
+                  <th>Status</th>
+                  <th>Booking Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {paginatedBookings.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} style={{ textAlign: 'center', padding: '32px', color: 'var(--text-muted)' }}>
+                      No bookings found.
                     </td>
-                    <td>
-                      <strong>{b.passengerName || b.user?.name || 'Passenger'}</strong>
-                      <div className="table-sub-text">{b.passengerPhone || b.user?.email}</div>
-                    </td>
-                    <td>
-                      <strong>{b.route?.source || 'N/A'}</strong> → <strong>{b.route?.destination || 'N/A'}</strong>
-                      <div className="table-sub-text">{b.route?.bus?.busName}</div>
-                    </td>
-                    <td>
-                      <span className="table-seats-badge">
-                        {Array.isArray(b.seats) ? b.seats.join(', ') : 'N/A'}
-                        {b.isCouple ? ' (Couple)' : ''}
-                      </span>
-                    </td>
-                    <td><strong>₹{b.totalFare}</strong></td>
-                    <td>
-                      <span className={`status-pill status-${b.status}`}>{b.status}</span>
-                    </td>
-                    <td>{dateStr}</td>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+                ) : (
+                  paginatedBookings.map((b) => {
+                    const dateStr = b.createdAt
+                      ? new Date(b.createdAt).toLocaleDateString('en-IN', {
+                          day: '2-digit',
+                          month: 'short',
+                          year: 'numeric',
+                        })
+                      : 'N/A';
+
+                    return (
+                      <tr key={b._id}>
+                        <td>
+                          <span className="booking-ref-chip">CL-{b._id.slice(-6).toUpperCase()}</span>
+                        </td>
+                        <td>
+                          <strong>{b.passengerName || b.user?.name || 'Passenger'}</strong>
+                          <div className="table-sub-text">{b.passengerPhone || b.user?.email}</div>
+                        </td>
+                        <td>
+                          <strong>{b.route?.source || 'N/A'}</strong> → <strong>{b.route?.destination || 'N/A'}</strong>
+                          <div className="table-sub-text">{b.route?.bus?.busName}</div>
+                        </td>
+                        <td>
+                          <span className="table-seats-badge">
+                            {Array.isArray(b.seats) ? b.seats.join(', ') : 'N/A'}
+                            {b.isCouple ? ' (Couple)' : ''}
+                          </span>
+                        </td>
+                        <td><strong>₹{b.totalFare}</strong></td>
+                        <td>
+                          <span className={`status-pill status-${b.status}`}>{b.status}</span>
+                        </td>
+                        <td>{dateStr}</td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          {totalBookingPages > 1 && (
+            <div className="admin-pagination-nav">
+              <button
+                type="button"
+                className="btn-page-step"
+                disabled={bookingPage <= 1}
+                onClick={() => setBookingPage((p) => Math.max(1, p - 1))}
+              >
+                ← Previous
+              </button>
+
+              <div className="page-numbers-wrap">
+                <span className="page-indicator-text">
+                  Page <strong>{bookingPage}</strong> of <strong>{totalBookingPages}</strong>
+                </span>
+              </div>
+
+              <button
+                type="button"
+                className="btn-page-step"
+                disabled={bookingPage >= totalBookingPages}
+                onClick={() => setBookingPage((p) => Math.min(totalBookingPages, p + 1))}
+              >
+                Next →
+              </button>
+            </div>
+          )}
+        </>
       )}
 
       {/* ══════════════════════════════════════════════════════
           MODAL: EDIT ROUTE & DYNAMIC FARES
          ══════════════════════════════════════════════════════ */}
       {editRouteModal && (
-        <div className="modal-backdrop" onClick={(e) => { if (e.target === e.currentTarget) setEditRouteModal(null); }}>
+        <div
+          className="modal-backdrop"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setEditRouteModal(null);
+          }}
+        >
           <div className="glass-card confirm-modal admin-edit-modal">
-            <button className="modal-close" onClick={() => setEditRouteModal(null)}>✕</button>
-            <div className="modal-title" style={{ fontSize: '1.25rem' }}>Edit Route &amp; Price</div>
-            <div className="modal-subtitle">Modify schedule, origin/destination, and dynamic fare values</div>
+            <button
+              type="button"
+              className="modal-close"
+              onClick={() => setEditRouteModal(null)}
+              aria-label="Close modal"
+            >
+              <Icons.Close />
+            </button>
+            <div className="modal-title" style={{ fontSize: '1.25rem' }}>Edit Scheduled Route</div>
+            <div className="modal-subtitle">Modify vehicle assignment, timings, and dynamic base fare</div>
 
-            <form onSubmit={handleSaveEditRoute} style={{ marginTop: '16px' }}>
+            <form onSubmit={handleSaveEditRoute} style={{ marginTop: '18px' }}>
               <div className="auth-field">
                 <label>Assigned Bus</label>
                 <select
@@ -920,11 +1239,11 @@ export default function AdminDashboard() {
               </div>
 
               {/* Dynamic Price Preview in Modal */}
-              <div className="admin-price-preview-banner" style={{ margin: '12px 0 20px 0' }}>
-                <div className="preview-label">Dynamic Prices Applied:</div>
+              <div className="admin-price-preview-banner" style={{ margin: '14px 0 20px 0' }}>
+                <div className="preview-label">Dynamic Seat Prices:</div>
                 <div className="preview-items">
-                  <span className="admin-badge-aisle">🚶 Aisle: ₹{editRouteModal.fare}</span>
-                  <span className="admin-badge-window">🪟 Window: ₹{getSeatFare(editRouteModal.fare, 1, pricingConfig)}</span>
+                  <span className="admin-badge-aisle">Aisle: ₹{editRouteModal.fare}</span>
+                  <span className="admin-badge-window">Window: ₹{getSeatFare(editRouteModal.fare, 1, pricingConfig)}</span>
                 </div>
               </div>
 
@@ -945,13 +1264,25 @@ export default function AdminDashboard() {
           MODAL: EDIT BUS FLEET
          ══════════════════════════════════════════════════════ */}
       {editBusModal && (
-        <div className="modal-backdrop" onClick={(e) => { if (e.target === e.currentTarget) setEditBusModal(null); }}>
+        <div
+          className="modal-backdrop"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setEditBusModal(null);
+          }}
+        >
           <div className="glass-card confirm-modal admin-edit-modal">
-            <button className="modal-close" onClick={() => setEditBusModal(null)}>✕</button>
+            <button
+              type="button"
+              className="modal-close"
+              onClick={() => setEditBusModal(null)}
+              aria-label="Close modal"
+            >
+              <Icons.Close />
+            </button>
             <div className="modal-title" style={{ fontSize: '1.25rem' }}>Edit Fleet Bus</div>
-            <div className="modal-subtitle">Update bus name, registration number, or seat layout</div>
+            <div className="modal-subtitle">Update vehicle name, registration number, or passenger capacity</div>
 
-            <form onSubmit={handleSaveEditBus} style={{ marginTop: '16px' }}>
+            <form onSubmit={handleSaveEditBus} style={{ marginTop: '18px' }}>
               <div className="auth-field">
                 <label>Bus Name</label>
                 <input

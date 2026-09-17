@@ -2341,7 +2341,54 @@ footer.site-footer {
   border: 1px solid rgba(79, 90, 232, 0.3);
 }
 
+.admin-table-actions {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn-action-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--indigo-600);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-action-edit:hover {
+  background: var(--indigo-500);
+  color: var(--white);
+  border-color: var(--indigo-500);
+}
+
+.btn-action-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  font-size: 0.82rem;
+  cursor: pointer;
+  color: #EF4444;
+  transition: all 0.15s;
+}
+.btn-action-delete:hover {
+  background: #FEE2E2;
+  border-color: #FCA5A5;
+}
+
 .btn-quick-edit-price {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-size: 0.74rem;
   font-weight: 700;
   padding: 3px 8px;
@@ -2405,49 +2452,6 @@ footer.site-footer {
 }
 .btn-cancel-sm:hover { background: #F87171; color: var(--white); }
 
-.admin-table-actions {
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.btn-action-edit {
-  padding: 6px 12px;
-  border-radius: 6px;
-  background: var(--white);
-  border: 1px solid var(--border);
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--indigo-600);
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.btn-action-edit:hover {
-  background: var(--indigo-500);
-  color: var(--white);
-  border-color: var(--indigo-500);
-}
-
-.btn-action-delete {
-  padding: 6px 10px;
-  border-radius: 6px;
-  background: var(--white);
-  border: 1px solid var(--border);
-  font-size: 0.82rem;
-  cursor: pointer;
-  color: #EF4444;
-  transition: all 0.15s;
-}
-.btn-action-delete:hover {
-  background: #FEE2E2;
-  border-color: #FCA5A5;
-}
-
-.admin-edit-modal {
-  text-align: left;
-  width: min(540px, 94vw);
-}
-
 /* ── Reduced Motion Preference ───────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -2455,4 +2459,5 @@ footer.site-footer {
     transition-duration: 0.01ms !important;
   }
 }
+
 

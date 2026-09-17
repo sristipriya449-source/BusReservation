@@ -61,24 +61,24 @@ export default function Login() {
           fontSize: '0.85rem'
         }}>
           <div style={{ fontWeight: 600, color: 'var(--text-heading)', marginBottom: '6px' }}>
-            ⚡ Quick Demo Login:
+            Quick Demo Login:
           </div>
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
             <button
               type="button"
               className="btn-secondary"
-              style={{ padding: '4px 10px', fontSize: '0.78rem', background: '#EEF0FA', borderColor: '#4F5AE8', color: '#4F5AE8' }}
+              style={{ padding: '4px 10px', fontSize: '0.78rem', background: '#EEF0FA', borderColor: '#4F5AE8', color: '#4F5AE8', fontWeight: 600 }}
               onClick={() => fillDemo('admin@citylink.com', 'admin123')}
             >
-              🔑 Fill Admin
+              Fill Admin
             </button>
             <button
               type="button"
               className="btn-secondary"
-              style={{ padding: '4px 10px', fontSize: '0.78rem' }}
+              style={{ padding: '4px 10px', fontSize: '0.78rem', fontWeight: 600 }}
               onClick={() => fillDemo('user@citylink.com', 'user123')}
             >
-              👤 Fill Passenger
+              Fill Passenger
             </button>
           </div>
         </div>
